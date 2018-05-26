@@ -1,0 +1,38 @@
+<h4>
+    <a href="{{url}}" title="{{name}}" target="_blank">{{name}}</a>
+</h4>
+{{#each issues}}
+<a href="{{html_url}}" title="{{title}}" target="_blank" class="issue u-td-none">
+    <div class="card">
+        <table>
+            <tr>
+                <td class="row-head">Title</td>
+                <td>{{title}}</td>
+            </tr>
+            <tr>
+                <td class="row-head">Status</td>
+                <td>{{state}}</td>
+            </tr>
+            <tr>
+                <td class="row-head">Labels</td>
+                <td>
+                    {{#each labels}}
+                        <div class="label" style="background-color:#{{color}}">
+                            {{name}}
+                        </div>
+                    {{/each}}
+                </td>
+            </tr>
+            <tr>
+                <td class="row-head">Author</td>
+                <td>{{user.login}}</td>
+            </tr>
+            <tr>
+                <td class="row-head">Created On</td>
+                <td>{{date}}</td>
+            </tr>
+        </table>
+    </div>
+</a>
+{{/each}}
+<hr>

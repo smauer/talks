@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>GitHub v3 API</title>
+
+        <!-- STYLES -->
+        <link type="text/css" rel="stylesheet" href="style/basefront.min.css">
+        <link type="text/css" rel="stylesheet" href="style/style.css">
+
+        <!-- LIBS -->
+        <script type="text/javascript" src="lib/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="lib/handlebars.runtime-v4.0.11.js"></script>
+        <script type="text/javascript" src="lib/textContrast.js"></script>
+        <script type="text/javascript" src="lib/eventemitter2.js"></script>
+        <script type="text/javascript">
+            window.EVT = new EventEmitter2();
+
+            window.EVT.on('issuesLoaded', function(){
+                textContrast('.label');
+            });
+        </script>
+
+        <!--
+            AJAX SETUP
+
+            DO NOT DISPLAY THIS FILE OR COMMIT TO REPO
+
+            Sets up Authorization and Accept headers with $.ajaxSetup
+        -->
+        <script type="text/javascript" src="js/ajaxSetup.js"></script>
+
+        <!--
+            HANDLEBARS TEMPLATES (precompiled)
+
+            repo.js
+            context {
+                repos: Array of repositories
+            }
+
+            issues.js
+            context {
+                name:   repository name,
+                url:    repository html url,
+                issues: Array of issues
+            }
+        -->
+        <script type="text/javascript" src="templates/repo.js"></script>
+        <script type="text/javascript" src="templates/issues.js"></script>
+    </head>
+    <body>
+        <h1 class="u-cntr u-ul">GitHub v3 API</h1>
+
+        <!-- FreeCodeCampOKC REPOS -->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="u-cntr u-ul">Repositories</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="repos">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FreeCodeCampOKC ISSUES -->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="u-cntr u-ul">Issues</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div id="issues">
+
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+    </body>
+
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="js/app.js"></script>
+</html>
