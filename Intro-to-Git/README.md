@@ -39,8 +39,30 @@ If the CLI isn't your thing, or you are interested in working with Git in a GUI 
 Once you have installed Git, the first thing you should do is add your name and email to Git's global configuration file. This information will be added to each commit that you make and make it easier to figure out who has created a particular commit when viewing the log.
 
 ```bash
-git config --global user.name  "<first> <last>"
-git config --global user.email "<email address>"
+$ git config --global user.name  "<first> <last>"
+$ git config --global user.email "<email address>"
 ```
 
 After configuring your name and email, use the terminal to navigate to, or create, the directory where you would like to store you Git repositories. This can be in your home folder, documents, or wherever you like.
+
+
+### Create a new repository
+
+Once you are inside of the folder where you will store your repositories, create a folder for your new repository and enter it, then create a new Git repository using the `git init` command.
+
+```bash
+$ mkdir my-project
+$ cd my-project
+
+$ git init
+# Initialized empty Git repository in /Users/brycejech/Documents/GitHub/my-project/.git/
+```
+
+The `git init` command from above will initialize a new repository in the current directory. You can optionally specify the directory in which to create the new repository; when not specified, git uses the current working directory. After running the `git init` command, use the `ls -a` command to see the contents of the directory. You should see a new `.git` folder.
+
+```bash
+$ ls -a
+# .	..	.git
+```
+
+The .git folder contains all of the information about your repository, it's history, settings, and much much more. Diving into this folder is outside of the scope of this talk, but if you would like to read more you can do so [here](http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html).
