@@ -65,4 +65,113 @@ $ ls -a
 # .	..	.git
 ```
 
-The .git folder contains all of the information about your repository, it's history, settings, and much much more. Diving into this folder is outside of the scope of this talk, but if you would like to read more you can do so [here](http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html).
+The .git folder contains all of the information about your repository, it's history, object database, settings, and much more. Diving into this folder is outside of the scope of this talk, but if you would like to read more you can do so [here](http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html).
+
+### Git Workflow
+
+Before we dive in, it's important to learn about the different states that files can be in when working with Git. These states are `committed`, `modified`, and `staged`.
+
+- `committed` means that the changes have been safely added to your local database.
+- `modified` means that a file has been changed, but not yet added to the staging area.
+- `staged` means that you have marked a modified file in its current state to go into your next commit.
+
+These states are related to the three main areas of a Git project. The .git directory, the working tree, and the staging area (or index).
+
+- The .git directory, as described earlier, is where Git stores the object database and all of the metadata about your project. This is the most important part of Git, without this folder, you don't have a Git project.
+- The working tree is a checkout of one version of the project. In our case, this is a checkout of the `master` branch. This is your working directory where your projects current state lives.
+- The staging area, or, more accurately, the index, is a file located in your .git directory. It stores information about what will go into your next commit.
+
+The most basic Git workflow is as follows:
+
+1. You make some changes to files in your working tree.
+2. Using the `git add` command, you selectively stage the changes you want to be a part of your next commit. It is important to note that Git adds *only* those changes to the staging area.
+3. You make a commit which takes the files as they are in the staging area and stores a snapshot to your Git directory.
+
+
+### Git Status
+
+Before we start making commits, let's use the `git status` command to view the current state of the repository.
+
+```bash
+$ git status
+
+# On branch master
+
+# No commits yet
+
+# nothing to commit (create/copy files and use "git add" to track)
+```
+
+Git reports back to us that we are currently on the `master` branch (more on branches later), we haven't made any commits yet, and that we haven't `add`ed any files to commit yet.
+
+
+### Making Commits
+
+Now that we're all set up, let's create a file so that we can make our first commit.
+
+```bash
+$ echo 'Today I am learning about Git!' > index.txt
+```
+
+This will create a file named `index.txt` with the contents `Today I am learning about Git!`.
+
+Let's do another status check.
+
+```bash
+$ git status
+# On branch master
+
+# No commits yet
+
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+
+# 	index.txt
+
+# nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Here, Git is telling us that we have an untracked file, `index.txt` and that we need to `add` it to the staging area before we can commit it.
+
+Let's `add` the file to the staging area and do another status check.
+
+```bash
+$ git add index.txt
+
+$ git status
+# On branch master
+
+# No commits yet
+
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+
+# 	new file:   index.txt
+```
+
+Git now reports that the file has been added to staging and will be part of our next commit.
+
+*Here, we've specified a single file with the `add` command. Note that you can specify multiple files or directories when using `add`.*
+
+Now, let's make our first commit and do yet another status check.
+
+```bash
+$ git commit -m 'add index.txt'
+# [master (root-commit) 3b58485] add index.txt
+#  1 file changed, 1 insertion(+)
+#  create mode 100644 index.txt
+
+$ git status
+# On branch master
+# nothing to commit, working tree clean
+```
+
+When using the `git commit` command above, note that we've given it an `-m` option. Here, `-m` stands for message. The string of text passed to the command after the `-m` flag will become our commit message.
+
+All of your commits should not only have messages, but the messages should describe the change that occurred in that particular commit. Giving good, descriptive commit messages will save you lots of debugging time in the future. It will make it much easier to track down commits that may have introduced bugs or that you are otherwise trying to locate.
+
+Commit messages should be short and concise. If you need to specify more explanatory text, you can pass multiple `-m` flags. The first message passed will be the commit message itself, and any additional messages passed will appear on separate lines when viewing the `git log` for the project.
+
+When making the commit above, Git reports some information about the commit back to us. It gives us the branch name that the commit was made on, the hash, the commit message, and some data about what was changed.
+
+After making the commit, when doing another status check, Git reports back that we are on our `master` branch, that there is nothing to commit, and that our working tree is clean.
