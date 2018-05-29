@@ -1,6 +1,6 @@
 # Introduction to Git / GitHub
 
-## What is Git?
+# What is Git?
 
 Git is a distributed version control system (dvcs). A version control system is an application that allows programmers to manage changes to their projects over time. Here, the word distributed means that there is no central server where a project's source code and history live.
 
@@ -9,7 +9,7 @@ When cloning a Git project (making a copy on your local machine), you get a copy
 Having the entire project stored locally on your computer makes for extremely fast operations on the repository because it doesn't have to communicate with a central server.
 
 
-## Why Should I Use Git?
+# Why Should I Use Git?
 
 If you are the only one working on your project, you may ask yourself, "Why even bother with version control?". You may have a project that you have been working on where you take regular backups at points where your code has changed significantly.
 
@@ -20,7 +20,7 @@ This problem can be exponentially exacerbated when more people work on the proje
 These scenarios, and many others like them, are exactly the types of problems that using a version control system help us to solve or avoid altogether.
 
 
-## Enter Git
+# Enter Git
 
 The first step to using Git is to download and install it. If you are working on a Linux system, odds are that you already have Git. If not, however, it is typically available via your package manager by the name of `git` or `git-core`. If you are working on a Mac or Windows system, you can download Git from [git-scm](https://www.git-scm.com).
 
@@ -34,7 +34,7 @@ If the CLI isn't your thing, or you are interested in working with Git in a GUI 
 - [Tortoise Git](https://tortoisegit.org/download/) - *Windows*
 
 
-## Getting Started
+# Getting Started
 
 Once you have installed Git, the first thing you should do is add your name and email to Git's global configuration file. This information will be added to each commit that you make and make it easier to figure out who has created a particular commit when viewing the log.
 
@@ -46,7 +46,7 @@ $ git config --global user.email "<email address>"
 After configuring your name and email, use the terminal to navigate to, or create, the directory where you would like to store you Git repositories. This can be in your home folder, documents, or wherever you like.
 
 
-### Create a new repository
+## Create a new repository
 
 Once you are inside of the folder where you will store your repositories, create a folder for your new repository and enter it, then create a new Git repository using the `git init` command.
 
@@ -67,7 +67,7 @@ $ ls -a
 
 The .git folder contains all of the information about your repository, it's history, object database, settings, and much more. Diving into this folder is outside of the scope of this talk, but if you would like to read more you can do so [here](http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html).
 
-### Git Workflow
+## Git Workflow
 
 Before we dive in, it's important to learn about the different states that files can be in when working with Git. These states are `committed`, `modified`, and `staged`.
 
@@ -88,7 +88,7 @@ The most basic Git workflow is as follows:
 3. You make a commit which takes the files as they are in the staging area and stores a snapshot to your Git directory.
 
 
-### Git Status
+## Git Status
 
 Before we start making commits, let's use the `git status` command to view the current state of the repository.
 
@@ -105,7 +105,7 @@ $ git status
 Git reports back to us that we are currently on the `master` branch (more on branches later), we haven't made any commits yet, and that we haven't `add`ed any files to commit yet.
 
 
-### Making Commits
+## Making Commits
 
 Now that we're all set up, let's create a file so that we can make our first commit.
 
