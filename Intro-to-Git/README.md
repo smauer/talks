@@ -151,7 +151,9 @@ $ git status
 
 Git now reports that the file has been added to staging and will be part of our next commit.
 
-*Here, we've specified a single file with the `add` command. Note that you can specify multiple files or directories when using `add`.*
+*Here, we've specified a single file with the `git add` command. Note that you can specify multiple files or directories when using `add`.*
+
+It's also important to note that the `add` command adds your changes to the staging **as they are**. Any further modifications to the file(s) will not be added to the next commit unless you explicitly add them back in. You could, in some cases, have the same file appear in the untracked changes section as well as the changes to be committed section. If it helps, think of the `add` command like saying, "add precisely these changes to the next commit", rather than adding a file or folder to the next commit.
 
 Now, let's make our first commit and do yet another status check.
 
