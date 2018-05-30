@@ -230,3 +230,40 @@ $ git commit -m 'rm remove.txt'
 The above would remove the file from staging and commit it's removal, but would not touch the file in your working tree. This is particularly useful for scenarios where you forgot to add a file to your .gitignore and accidentally staged it.
 
 ## Moving Files
+
+While Git doesn't actually store any metadata about file movement, it is good at figuring out if a file has been moved after the fact.
+
+Git comes with a `mv` command for moving, or renaming, files. Similarly to the `git rm` command, it does a couple operations for us. `git mv <from> <to>` will move the `<from>` file to the `<to>` file, and stage the changes.
+
+```bash
+$ echo 'I'\''m about to be moved!' > move.txt
+$ git add move.txt
+$ git commit -m 'add move.txt'
+# [master c98471a] add move.txt
+#  1 file changed, 1 insertion(+)
+#  create mode 100644 move.txt
+
+$ git mv move.txt moved.txt
+
+$ git status
+
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+
+# 	  renamed:    move.txt -> moved.txt
+
+$ git commit -m 'rename move.txt to moved.txt'
+```
+
+As you can see from the output in the changes to be committed section, Git has detected that the `move.txt` file has been renamed to `moved.txt`.
+
+Note that the `git mv move.txt moved.txt` command from above is equivalent to renaming the file, staging the removal, and adding the new file
+
+```bash
+$ mv move.txt moved.txt
+$ git rm move.txt
+$ git add moved.txt
+```
+
+## Viewing Project History
