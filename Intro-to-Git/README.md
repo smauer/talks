@@ -177,3 +177,56 @@ Commit messages should be short and concise. If you need to specify more explana
 When making the commit above, Git reports some information about the commit back to us. It gives us the branch name that the commit was made on, the hash, the commit message, and some data about what was changed.
 
 After making the commit, when doing another status check, Git reports back that we are on our `master` branch, that there is nothing to commit, and that our working tree is clean.
+
+### Bypassing the Staging Area
+
+The staging area is very helpful in that allows us to carefully craft out commit messages and include changes/files selectively. However, sometimes it may be a bit more complex than we need for our workflow.
+
+We can by bypass the staging area by including the `-a` flag with the `git commit` command. Using the `-a` flag will stage all changes to files that were already being tracked before making the commit.
+
+```bash
+$ git commit -a -m '<your commit message>'
+```
+
+Take special care when using the `-a` option however, as files that have not previously been `add`ed are not included.
+
+
+### Removing Files
+
+To remove a file from a Git project, you have to explicitly remove it from your staging area and then commit. To do this, you can use the `git rm <file>` command. This will remove the file(s) from your filesystem and stage it's removal for the next commit.
+
+```bash
+$ echo 'I'\''am about to be removed!' > remove.txt
+$ git add remove.txt
+$ git commit -m 'add remove.txt'
+
+# [master d7fa17a] add remove.txt
+#  1 file changed, 1 insertion(+)
+#  create mode 100644 remove.txt
+
+$ git rm remove.txt
+# rm 'remove.txt'
+
+$ git commit -m 'rm remove.txt'
+```
+
+Note that the `git rm <file>` command is equivalent to removing the file and `add`ing it's removal to the staging area like so:
+
+```bash
+$ rm remove.txt
+$ git add remove.txt
+$ git commit -m 'rm remove.txt'
+```
+
+So, the `git rm` command just does a couple extra steps for us.
+
+There may also be scenarios where you want to remove a file from the staging area, but keep it on your hard drive. You can pass it the `--cached` option to accomplish this.
+
+```bash
+$ git rm --cached remove.txt
+$ git commit -m 'rm remove.txt'
+```
+
+The above would remove the file from staging and commit it's removal, but would not touch the file in your working tree. This is particularly useful for scenarios where you forgot to add a file to your .gitignore and accidentally staged it.
+
+### Moving Files
