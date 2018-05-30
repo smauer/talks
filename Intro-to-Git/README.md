@@ -191,7 +191,7 @@ $ git commit -a -m '<your commit message>'
 Take special care when using the `-a` option however, as files that have not previously been `add`ed are not included.
 
 
-### Removing Files
+## Removing Files
 
 To remove a file from a Git project, you have to explicitly remove it from your staging area and then commit. To do this, you can use the `git rm <file>` command. This will remove the file(s) from your filesystem and stage it's removal for the next commit.
 
@@ -229,4 +229,4 @@ $ git commit -m 'rm remove.txt'
 
 The above would remove the file from staging and commit it's removal, but would not touch the file in your working tree. This is particularly useful for scenarios where you forgot to add a file to your .gitignore and accidentally staged it.
 
-### Moving Files
+## Moving Files
