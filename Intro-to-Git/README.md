@@ -318,3 +318,69 @@ The `--grep <pattern>` flag is useful for searching commit messages for a matche
 
 
 ## Uh-Oh
+
+Ok, at this point we've learned just enough to be dangerous. Time to learn a little about how to recover from mistakes.
+
+### I left a file out of my last commit
+```bash
+$ git add <file>
+$ git commit --amend
+# Follow prompt to update commit message if needed
+
+# Do the same, but replay the last commit message (and other metadata)
+$ git commit --amend -C HEAD
+
+# Same, but just leave the commit message
+$ git commit --amend --no-edit
+```
+
+### I need to update my last commit message
+```bash
+$ git commit --amend
+# Follow prompt to update last commit message
+
+# Shorter still
+$ git commit --amend -m 'your new message'
+```
+
+### I've screwed up a file and want it back to it's last committed state
+```bash
+$ git checkout -- <file>
+```
+
+### I've lost a commit and need to get it back
+```bash
+$ git reflog
+# will show everything you've done across branches
+# with a HEAD@{index} for each move, find the index you want and...
+
+$ git checkout HEAD@{index}
+
+# This will put you in a detached head state, may want to create
+# a tag or branch at this point
+
+# If you are just wanting to go backwards...
+$ git reset HEAD@{index}
+```
+
+### I've accidentally staged a file and want to unstage it
+```bash
+$ git reset HEAD <file>
+```
+
+### I need to undo the last commit but leave my changes
+```bash
+$ git reset --soft HEAD~
+# Note that this will preserve your staging area.
+# If you want to also reset the staging area just leave
+# off the --soft flag (aka --mixed, the default)
+```
+
+### I meant to make that last commit on a new branch
+```bash
+$ git branch new-branch
+$ git reset --hard HEAD~
+$ git checkout new-branch
+```
+
+More examples at [Oh, Shit, Git!](http://ohshitgit.com)
