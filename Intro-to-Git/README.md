@@ -267,3 +267,54 @@ $ git add moved.txt
 ```
 
 ## Viewing Project History
+
+Git comes with a `log` command for viewing the commit history of a project. By default, it will list out the commit history of the current branch in the order of newest to oldest commits. With no other options given, `git log` will list out the hash, author name and email, the date, and the commit message.
+
+```bash
+$ git log
+
+# commit d92aeae2f7009b83492b3fa1dc73a00dfcd421e6 (HEAD -> master)
+# Author: Bryce Jech <bryce@brycejech.com>
+# Date:   Wed May 30 18:30:02 2018 -0500
+
+#     rm remove.txt
+
+# commit b77ba1ab0c902a19fa4b8230de3336898a646cbb
+# Author: Bryce Jech <bryce@brycejech.com>
+# Date:   Wed May 30 18:28:58 2018 -0500
+
+#     rename move.txt to moved.txt
+
+# commit c98471adc170b577ad4b09ad5ecd0e9d3c9b530e
+# Author: Bryce Jech <bryce@brycejech.com>
+# Date:   Tue May 29 21:27:53 2018 -0500
+
+#     add move.txt
+
+# commit d7fa17aca47baa467c1c7f89b953f5bbbe3ae66e
+# Author: Bryce Jech <bryce@brycejech.com>
+# Date:   Tue May 29 19:12:24 2018 -0500
+
+#     add remove.txt
+
+# commit a12c95926132e75db8ae220adc74c590232093f8
+# Author: Bryce Jech <bryce@brycejech.com>
+# Date:   Mon May 28 21:02:40 2018 -0500
+
+#     add index.txt
+```
+
+`git log` pretty useful by itself, but this command comes with tons of options that make it very easy to find what you are looking for.
+
+If you want to view less information about each commit, you can use the `--oneline` flag, which will output the abbreviated hash and the commit message. If you want to view single line output with the full hash you can use the `--pretty=oneline` option.
+
+If these formatting flags aren't enough, you can pass Git your own custom formatter with the `--pretty=format:"<your format>"` option. There are tons of formatting options available for this one, check out [git-scm](https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History) for all options.
+
+You can limit the output by passing a `-<Number>` option. For example, if you only wanted to get the 3 most recent commits, the command would be as follows: `git log -3`.
+
+The `-p` or `--patch` option will output the differences, or patch output, introduced by each commit.
+
+The `--grep <pattern>` flag is useful for searching commit messages for a matched RegEx pattern.
+
+
+## Uh-Oh
