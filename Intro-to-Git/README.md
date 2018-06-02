@@ -388,7 +388,7 @@ More examples at [Oh, Shit, Git!](http://ohshitgit.com)
 
 # Working with Remotes
 
-Now that we've learned some basics, it's time to start working with remote repositories. A remote, in Git terminology, is a reference to a version of your project that is hosted on a network location or the internet, such as GitHub. Working with others on shared projects, such as an open source project, involves pushing and pulling data to and from these remote repositories.
+Now that we've learned some basics, it's time to start working with remote repositories. A remote, in Git terminology, is a reference to a version of your project that is hosted on a network location or somewhere on the internet, such as GitHub. Working with others on shared projects, such as an open source project, involves pushing and pulling data to and from these remote repositories.
 
 A project may have any number of remote repositories. When dealing with open source projects on GitHub that are shared among collaborators, a local project will typically have at least one or two remote repositories configured.
 
@@ -418,7 +418,7 @@ $ git remote
 
 If you have cloned a repository from somewhere else, you will almost certainly have a remote named `origin`. This is the default name given to a server that Git has cloned a repository from.
 
-To also view the URLs that Git will use to read and write to and from a remote, use the `-v` option.
+To also view the URLs that Git will use to read and write to and from a remote repository, use the `-v` option.
 
 ```bash
 $ git remote -v
@@ -426,31 +426,39 @@ $ git remote -v
 # origin	https://github.com/brycejech/git-sandbox.git (push)
 ```
 
-## Adding Remotes
-
-The `git clone` command implicitly adds the `origin` remote for us. Explicitly add your own remotes, use the `git remote add <alias> <url>` command.
-
-For example, if you had forked a copy of the FreeCodeCampOKC repository fccokc_web (more on forks later) and cloned a local copy of your fork, you may want to also configure an `upstream` remote to stay up to date with changes made to the original repository you forked from. In this scenario, your command would look something like this:
-
-```bash
-$ git remote add upstream https://github.com/FreeCodeCampOKC/fccokc_web.git
-```
-
-*Note that the above repository is not the same project we are working on currently. The above example is used simply to illustrate the use of the `git remote add` command.*
-
-It is worth noting that Git and GitHub support a variety of protocols. In the above example we've specified the `http` protocol. Http is the most widely used protocol for working with remote repositories on GitHub. Git and GitHub also support the `git` and `ssh` protocols, and Git supports a `local` protocol as well.
-
-Learn more about remote protocols on [git-scm](https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols)
-
-## Fecthing Changes
-
 
 ## Pushing to Remotes
 
+After you have committed changes to your local repository, the next step is to push those changes up to your remote repository. To accomplish this, Git provides the `git push <remote> <branch>` command.
+
+Let's make a commit and push it up to our `origin`.
+
+```bash
+$ cd sandbox
+$ echo 'demonstrating our first push' > first-push.txt
+
+$ git add first-push.txt
+$ git commit -m 'git push is easy!'
+# [master c0c077e] git push is easy!
+#  1 file changed, 1 insertion(+)
+#  create mode 100644 sandbox/first-push.txt
+
+$ git push origin master
+# Counting objects: 4, done.
+# Delta compression using up to 8 threads.
+# Compressing objects: 100% (3/3), done.
+# Writing objects: 100% (4/4), 372 bytes | 372.00 KiB/s, done.
+# Total 4 (delta 1), reused 0 (delta 0)
+# remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+# To https://github.com/brycejech/git-sandbox.git
+#    3dab12d..c0c077e  master -> master
+```
+
+In the above commands, we created a new file, committed it, and pushed it up to our origin repository on the master branch. Upon making the push, Git gives us some output about what happened.
 
 ### Git Credential Helper
 
-Going back to the protocol discussion above, using http does have one significant downside to consider, you must authenticate each time you `push` over http. This can be a real pain if you are frequently pushing data to one of your remote repositories.
+Going back to the protocol discussion from earlier, using the http protocol does have one significant downside to consider, you must authenticate each time you `push` over http. This can be a real pain if you are frequently pushing data to one of your remote repositories.
 
 Luckily, Git provides the ability to store your credentials a couple of different ways via the credential storage. Storage options are available using the `credential.helper` configuration key.
 
@@ -471,3 +479,48 @@ The `credential.helper` setting accepts the value `cache` and `store`. If you ar
 
 - `git config --global credential.helper osxkeychain`
     - MacOS only. Stores credentials in encrypted format permanently in the osxkeychain
+
+
+## Adding Remotes
+
+The `git clone` command implicitly adds the `origin` remote for us. To explicitly add your own remotes, use the `git remote add <alias> <url>` command.
+
+For example, if you had forked a copy of the FreeCodeCampOKC repository fccokc_web (more on forks later) and cloned a local copy of your fork, you may want to also configure an `upstream` remote to stay up to date with changes made to the original repository you forked from. In this scenario, your command would look something like this:
+
+```bash
+$ git remote add upstream https://github.com/FreeCodeCampOKC/fccokc_web.git
+```
+
+*Note that the above repository is not the same project we are working on currently. The above example is used simply to illustrate the use of the `git remote add` command.*
+
+It is worth noting that Git and GitHub support a variety of protocols. In the above example we've specified the `http` protocol. Http is the most widely used protocol for working with remote repositories on GitHub. Git and GitHub also support the `git` and `ssh` protocols, and Git supports a `local` protocol as well.
+
+Learn more about remote protocols on [git-scm](https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols)
+
+
+## Fecthing and Merging Changes on a Remote
+
+When working with remotes, Git will not allow us to `push` our changes if the remote branch has gotten ahead of our local branch. This means that any new commits that have occurred on the remote branch must be merged into our local branch before we can `push`.
+
+The `git fetch <remote>` command tells Git to go and get data from a remote repository. You can optionally fetch data on a specific branch by specifying the branch you want to fetch after the remote name.
+
+Fetch is used when we want to get updates from a remote repository/branch so that we can update a local branch with any changes on the remote.
+
+`fetch` will **not** make any changes to your working tree. Once any new commits have been fetched from the remote, we merge them in to our working tree using the `git merge <remote>/<branch>` command.
+
+```bash
+$ git fetch origin
+
+# Make sure we're on the right branch
+$ git checkout master
+
+# Merge changes on origin/master into our working tree
+$ get merge origin/master
+```
+
+Git also provides a shortcut to `fetch` and `merge` simultaneously with the `git pull <remote>/<branch>` command.
+
+```bash
+$ git checkout master
+$ git pull origin/master
+```
