@@ -427,3 +427,47 @@ $ git remote -v
 ```
 
 ## Adding Remotes
+
+The `git clone` command implicitly adds the `origin` remote for us. Explicitly add your own remotes, use the `git remote add <alias> <url>` command.
+
+For example, if you had forked a copy of the FreeCodeCampOKC repository fccokc_web (more on forks later) and cloned a local copy of your fork, you may want to also configure an `upstream` remote to stay up to date with changes made to the original repository you forked from. In this scenario, your command would look something like this:
+
+```bash
+$ git remote add upstream https://github.com/FreeCodeCampOKC/fccokc_web.git
+```
+
+*Note that the above repository is not the same project we are working on currently. The above example is used simply to illustrate the use of the `git remote add` command.*
+
+It is worth noting that Git and GitHub support a variety of protocols. In the above example we've specified the `http` protocol. Http is the most widely used protocol for working with remote repositories on GitHub. Git and GitHub also support the `git` and `ssh` protocols, and Git supports a `local` protocol as well.
+
+Learn more about remote protocols on [git-scm](https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols)
+
+## Fecthing Changes
+
+
+## Pushing to Remotes
+
+
+### Git Credential Helper
+
+Going back to the protocol discussion above, using http does have one significant downside to consider, you must authenticate each time you `push` over http. This can be a real pain if you are frequently pushing data to one of your remote repositories.
+
+Luckily, Git provides the ability to store your credentials a couple of different ways via the credential storage. Storage options are available using the `credential.helper` configuration key.
+
+The `credential.helper` setting accepts the value `cache` and `store`. If you are on a Mac, you can also use the `osxkeychain`.
+
+#### Examples
+
+- `git config --global credential.helper cache`
+    - Stores credentials for 15 minutes (default)
+
+
+- `git config --global credential.helper 'cache --timeout=1800'`
+    - Stores credentials for 30 minutes (1800 seconds)
+
+
+- `git config --global credential.helper store`
+    - Stores credentials indefinitely. **Caution** stores passwords in a plaintext file
+
+- `git config --global credential.helper osxkeychain`
+    - MacOS only. Stores credentials in encrypted format permanently in the osxkeychain
