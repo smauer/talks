@@ -190,6 +190,89 @@ $ git commit -a -m '<your commit message>'
 
 Take special care when using the `-a` option however, as files that have not previously been `add`ed are not included.
 
+## Basic Branching
+
+Git allows us to create what are called branches. A branch is simply a symbolic reference to a single commit. By default, a Git repository will have a single branch called `master`.
+
+A branch is similar to a tag, which is used for versioning, in that both are references to a single commit. However, branches differ in that they are designed to be updated, while a tag is usually not updated once it's been created.
+
+When a branch is checked out, the working tree is updated to reflect the state of the repository for that commit. When making a commit on a branch, the reference, or, more appropriately, the pointer for the branch is updated to point to the result of that commit.
+
+Branches are central to the development workflow of a Git project. They are used to isolate code while working on new features or bug fixes. Creating new branches allows us to work on a specific task independently, without affecting the main branch.
+
+Once development on a branch is complete, it's changes are then merged into some other branch, such as `master`. Sometimes, changes in the branches being merged are incompatible, this is known as a merge conflict. We won't cover merge conflicts right now, just be aware that this can happen and that they must be manually resolved.
+
+To view the branches for a repository, use the `git branch` command.
+
+```bash
+$ git branch
+# * master
+```
+
+This repository only has a single branch, `master`, which is also the currently checked-out branch, denoted by the `*` character.
+
+Let's create a new branch and switch to it using the `git checkout` command. To create a new branch, use the `git branch <branch name>` command.
+
+```bash
+$ git branch test-branch
+$ git checkout test-branch
+# Switched to branch 'test-branch'
+```
+
+Here, we've created a new branch called `test-branch` and switched to it. Let's see what the output of `git branch` is now.
+
+```bash
+$ git branch
+# master
+# * test-branch
+```
+
+Now we can see that we have 2 branches, `master` and `test-branch`, and that `test-branch` is the currently checked-out branch as denoted by the `*`.
+
+Git also provides us a shortcut to create a new branch and switch to it in a single command, `git checkout -b <new branch name>`.
+
+It's important to note that in most cases Git will not allow you to switch branches if you have any changes that have not been committed in your current branch. Before switching branches, you must either commit or stash your changes.
+
+Let's create a new commit on the test-branch.
+
+```bash
+$ echo 'This file only exists in the test branch' > test.txt
+
+$ git add test.txt
+$ git commit -m 'add test.txt'
+# [test-branch be55380] add test.txt
+#  1 file changed, 1 insertion(+)
+#  create mode 100644 test.txt
+
+$ ls
+# index.txt   test.txt
+```
+
+We've created a new file and committed it to our test branch. To illustrate that `git checkout` updates our working tree as described previously, let's switch back to our master branch and see what we have.
+
+```bash
+$ git checkout master
+# Switched to branch 'master'
+
+$ ls
+# index.txt
+```
+
+As you can see, the `test.txt` file from our `test-branch` is gone.
+
+In order to get the changes on our `test-branch` into our master branch, we will have to `merge` them in. We'll cover merging in more detail later.
+
+Let's delete the `test-branch` for now, we'll talk more about branching and merging later on.
+
+```bash
+$ git branch -D test-branch
+# Deleted branch test-branch (was 6921b4d).
+```
+
+Git tells us that we've deleted the branch and gave us the abbreviated hash that it used to point to.
+
+Note that we specified the `-D` option to delete the branch. Normally, when deleting a branch the `-d` (lower case) option is used. However, since we chose not to merge in the changes from `test-branch` we have to "force delete" it with the capital `-D` option. Be careful when using the `-D` option as Git **will not warn you** before deleting the branch.
+
 
 ## Removing Files
 
