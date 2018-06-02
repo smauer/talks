@@ -498,7 +498,7 @@ It is worth noting that Git and GitHub support a variety of protocols. In the ab
 Learn more about remote protocols on [git-scm](https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols)
 
 
-## Fecthing and Merging Changes on a Remote
+## Fecthing and Merging Changes from a Remote
 
 When working with remotes, Git will not allow us to `push` our changes if the remote branch has gotten ahead of our local branch. This means that any new commits that have occurred on the remote branch must be merged into our local branch before we can `push`.
 
