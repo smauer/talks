@@ -317,7 +317,7 @@ The `-p` or `--patch` option will output the differences, or patch output, intro
 The `--grep <pattern>` flag is useful for searching commit messages for a matched RegEx pattern.
 
 
-## Uh-Oh
+# Uh-Oh
 
 Ok, at this point we've learned just enough to be dangerous. Time to learn a little about how to recover from mistakes.
 
@@ -384,3 +384,46 @@ $ git checkout new-branch
 ```
 
 More examples at [Oh, Shit, Git!](http://ohshitgit.com)
+
+
+# Working with Remotes
+
+Now that we've learned some basics, it's time to start working with remote repositories. A remote, in Git terminology, is a reference to a version of your project that is hosted on a network location or the internet, such as GitHub. Working with others on shared projects, such as an open source project, involves pushing and pulling data to and from these remote repositories.
+
+A project may have any number of remote repositories. When dealing with open source projects on GitHub that are shared among collaborators, a local project will typically have at least one or two remote repositories configured.
+
+Before we can really start working with remotes, we need to move out of our local repository. I've created a sandbox repository for us to play around with. Let's clone it. *Be sure to switch to your git repo directory before cloning*
+
+```bash
+$ cd ~/Documents/GitHub
+$ git clone https://github.com/brycejech/git-sandbox.git
+# Cloning into 'git-sandbox'...
+# remote: Counting objects: 9, done.
+# remote: Compressing objects: 100% (7/7), done.
+# remote: Total 9 (delta 0), reused 0 (delta 0), pack-reused 0
+# Unpacking objects: 100% (9/9), done.
+
+# switch to our new repository's directory
+$ cd git-sandbox
+```
+
+## Viewing Remote Repositories
+
+To view the remote repositories that are configured for your project, use the `git remote` command.
+
+```bash
+$ git remote
+# origin
+```
+
+If you have cloned a repository from somewhere else, you will almost certainly have a remote named `origin`. This is the default name given to a server that Git has cloned a repository from.
+
+To also view the URLs that Git will use to read and write to and from a remote, use the `-v` option.
+
+```bash
+$ git remote -v
+# origin	https://github.com/brycejech/git-sandbox.git (fetch)
+# origin	https://github.com/brycejech/git-sandbox.git (push)
+```
+
+## Adding Remotes
