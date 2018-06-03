@@ -434,8 +434,8 @@ $ git checkout -- <file>
 ### I've lost a commit and need to get it back
 ```bash
 $ git reflog
-# will show everything you've done across branches
-# with a HEAD@{index} for each move, find the index you want and...
+# will show everything you've done across branches with a
+# HEAD@{index} for each move, find the index you want and...
 
 $ git checkout HEAD@{index}
 
@@ -560,6 +560,7 @@ The `credential.helper` setting accepts the value `cache` and `store`. If you ar
 - `git config --global credential.helper store`
     - Stores credentials indefinitely. **Caution** stores passwords in a plaintext file
 
+
 - `git config --global credential.helper osxkeychain`
     - MacOS only. Stores credentials in encrypted format permanently in the osxkeychain
 
@@ -607,3 +608,134 @@ Git also provides a shortcut to `fetch` and `merge` simultaneously with the `git
 $ git checkout master
 $ git pull origin/master
 ```
+
+
+# Exercise: Distributed Git
+
+Now that we know how to work with remotes. Let's work through a more distributed workflow involving collaboration between a shared repository on GitHub. This workflow is how many open source libraries are maintained.
+
+## Create a Fork on GitHub
+
+We are first going to create a fork. In the context of GitHub, a fork is a remote repository that you own that is a copy of a remote repository owned by someone else. Your fork is automatically linked to the repository that it was copied from. We are going to create a fork of a repository on GitHub, then clone our remote fork down to our local machine.
+
+Our GitHub hosted fork that we clone is what will be known as our `origin`, the original repository that we forked from is what is commonly called an `upstream` repository.
+
+Go to <https://github.com/BryceJech/talks> and click the `Fork` button in the upper right-hand corner of the page. This will take you to your own GitHub account where the fork will be created. The URL you are taken to will look something like this: `https://github.com/<username>/talks`.
+
+Note that under the repository name, there will be a reference to the original repository that the project was forked from.
+
+## Clone Your Fork
+
+Once on your fork's page, click the green `Clone or download` button and copy the url to your clipboard. The URL should look like this: `https://github.com/<username>/talks.git`.
+
+Now, go back to your terminal, navigate to the folder you've created for holding your repositories, and clone the repository. Then, navigate to the repositories directory.
+
+```bash
+$ cd ~/Documents/GitHub
+
+$ git clone https://github.com/OctoBryce/talks.git
+# Cloning into 'talks'...
+# remote: Counting objects: 114, done.
+# remote: Compressing objects: 100% (72/72), done.
+# remote: Total 114 (delta 38), reused 93 (delta 20), pack-reused 0
+# Receiving objects: 100% (114/114), 5.37 MiB | 100.00 KiB/s, done.
+# Resolving deltas: 100% (38/38), done.
+
+$ cd talks
+```
+
+The reason for creating a fork is that we do not have write access to the original repository. Creating a fork allows us to have a copy of a repository that we can write to. This writeable repository that we own is where we will make our pull request from.
+
+## Add an `upstream` Remote
+
+Git has already configured an `origin` remote that refers to our fork on GitHub. Let's also create an `upstream` remote that refers to the original repository that we forked from. If needed, we'll use this `upstream` remote to fetch and merge any changes on the original repository.
+
+```bash
+$ git remote add upstream https://github.com/brycejech/talks.git
+
+$ git remote -v
+# origin	https://github.com/OctoBryce/talks.git (fetch)
+# origin	https://github.com/OctoBryce/talks.git (push)
+# upstream	https://github.com/brycejech/talks.git (fetch)
+# upstream	https://github.com/brycejech/talks.git (push)
+```
+
+## Create a Branch
+
+In order to keep things tidy, let's make a branch. Normally, we'd make a branch to work on a feature or fix a bug. Here, we're going to create a branch called `survey` that we'll use to fill out a questionnaire.
+
+```bash
+$ git checkout -b survey
+# Switched to a new branch 'survey'
+```
+
+
+## Complete the Survey
+
+Now that our branch is created, navigate to the survey directory inside of the Intro-to-Git directory.
+
+```bash
+$ cd Intro-to-Git/survey
+```
+
+Then, copy the TEMPLATE.md file to a new filename. Name the file something that will not collide with other respondents, such as your username, and give it a `.md` file extension. For example, if your username is PinkUnicorn, name the file PinkUnicorn.md
+
+```bash
+$ cp TEMPLATE.md <your username>.md
+```
+
+Open your newly created markdown file and fill out the survey questions.
+
+The first few survey questions are checkboxes, which, in markdown, look like this `- [ ] <question>`. In order to indicate a positive response (checked box), replace the space inside the square brackets with an x like this: `- [x] <question>`. The last few questions are free response.
+
+Next, add the new file to your staging area, commit the change, and push it to your `origin` repository.
+
+```bash
+$ git add <new file>.md
+$ git commit -m 'Complete survey'
+
+$ git push origin survey
+```
+
+Since the `survey` branch did not exist on the `origin` repository, Git may have created it for you.
+
+
+## Create a Pull Request
+
+Now that we've pushed our change up to our `origin` repository, we need to create a pull request to have the change brought in to the original repository.
+
+Go to your forks page on GitHub, switch to the `survey` branch, and click the `Create pull request` button.
+
+On the pull request page, make sure that the base fork is set to the original repository that we originally forked (the upstream repo in our local project), that you are committing to the master branch, that the head fork is set to the fork you created, and that the compare branch is set to the survey branch that you created.
+
+Then, give your pull request a descriptive title and press the `Create pull request` button.
+
+That's it! Your pull request has been created!!
+
+## Clean up
+
+Once your pull request has been merged in, you can go ahead and delete the `survey` branch on GitHub as well as your local repository.
+
+To delete the local branch, use the `git branch -D <branch name>` command from earlier.
+
+```bash
+$ git branch -D survey
+# Deleted branch survey (was d4ed485).
+```
+
+To delete the remote branch, use the `git push -d origin <branch name>` command.
+
+```bash
+$ git push -d origin survey
+# To https://github.com/OctoBryce/talks.git
+# - [deleted]         survey
+```
+
+Alternatively, you can delete the remote branch like this.
+```
+$ git push origin :survey
+```
+
+# Final Thoughts
+
+I hope that you learned a lot about working with Git today. Now, go out and practice, practice, practice!!!
