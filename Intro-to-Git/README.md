@@ -660,6 +660,8 @@ $ git remote -v
 # upstream	https://github.com/brycejech/talks.git (push)
 ```
 
+If the `upstream` repository get's ahead of our fork, we will have to merge in any changes from the upstream before we can have a pull request accepted. If this happens, use the `git fetch upstream` and `git merge upstream/master` commands from earlier. Then push the merge commit to your fork. Once you are caught up, your pull request should be able to fast-forward and will be more likely to be accepted.
+
 ## Create a Branch
 
 In order to keep things tidy, let's make a branch. Normally, we'd make a branch to work on a feature or fix a bug. Here, we're going to create a branch called `survey` that we'll use to fill out a questionnaire.
